@@ -7,8 +7,8 @@ const VoxelCoder = lazy(() => import("./VoxelCoder.jsx"));
 
 function getChipOrbitPosition(index, count) {
   const angle = ((-90 + (360 * index) / count) * Math.PI) / 180;
-  const horizontalRadius = 31;
-  const verticalRadius = 38;
+  const horizontalRadius = 40;
+  const verticalRadius = 46;
 
   return {
     "--chip-x": `${Math.cos(angle) * horizontalRadius}%`,
