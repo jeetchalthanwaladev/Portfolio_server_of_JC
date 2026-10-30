@@ -1,0 +1,77 @@
+:root {
+  --bg:#080b14;
+  --panel:#111827;
+  --panel-2:#0d1320;
+  --indigo:#6366f1;
+  --cyan:#67e8f9;
+  --violet:#a78bfa;
+  --text:#f8fafc;
+  --muted:#a7b0c3;
+  --border:#273249;
+  --mono:'DM Mono',monospace;
+  --sans:'Manrope',Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --page:1180px
+}
+* {
+  box-sizing:border-box
+}
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:90px
+}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden
+}
+#root {
+  position:relative;
+  z-index:1
+}
+main,.site-footer {
+  position:relative;
+  z-index:1
+}
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse 45% 30% at 82% 8%,rgba(99,102,241,.09),transparent 70%),radial-gradient(ellipse 40% 35% at 7% 43%,rgba(103,232,249,.035),transparent 70%)
+}
+a {
+  color:inherit;
+  text-decoration:none
+}
+button {
+  font:inherit
+}
+.section-shell {
+  width:min(var(--page),calc(100% - 80px));
+  margin-inline:auto
+}
+.scroll-progress {
+  position:fixed;
+  z-index:100;
+  top:0;
+  left:0;
+  width:100%;
+  height:2px;
+  background:transparent;
+  pointer-events:none
+}
+.scroll-progress span {
+  display:block;
+  width:100%;
+  height:100%;
+  transform:scaleX(0);
+  transform-origin:0 50%;
+  will-change:transform;
+  background:linear-gradient(90deg,var(--indigo),var(--cyan));
+  box-shadow:0 0 12px var(--cyan)
+}

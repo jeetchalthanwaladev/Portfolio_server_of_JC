@@ -1,0 +1,227 @@
+.site-header {
+  height:82px;
+  position:fixed;
+  z-index:50;
+  inset:0 0 auto;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 max(40px,calc((100vw - var(--page))/2));
+  background:linear-gradient(180deg,rgba(8,11,20,.72),rgba(8,11,20,0));
+  transition:top .35s ease,width .35s ease,padding .35s ease,background .35s ease,border-radius .35s ease,box-shadow .35s ease
+}
+.wordmark {
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  width:max-content;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.14em;
+  transition:opacity .2s ease,transform .3s ease
+}
+.wordmark-mark {
+  display:grid;
+  place-items:center;
+  flex:0 0 36px;
+  width:36px;
+  height:36px;
+  border:1px solid rgba(103,232,249,.58);
+  border-radius:12px;
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:-.06em;
+  background:rgba(17,24,39,.68);
+  box-shadow:inset 0 0 15px rgba(103,232,249,.09),0 0 20px rgba(103,232,249,.06)
+}
+.wordmark-name {
+  display:inline-flex;
+  align-items:center;
+  width:150px;
+  min-height:1.4em;
+  color:#e4eaf5;
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.11em;
+  white-space:nowrap
+}
+.wordmark-caret {
+  width:1px;
+  height:1em;
+  margin-left:3px;
+  background:var(--cyan);
+  box-shadow:0 0 8px rgba(103,232,249,.75);
+  animation:brand-caret-blink .85s steps(2,start) infinite
+}
+@keyframes brand-caret-blink { to { opacity:0 } }
+.primary-nav {
+  grid-column:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(20px,2.8vw,38px);
+  font-size:12px;
+  color:var(--muted)
+}
+.primary-nav>a:not(.nav-contact) {
+  position:relative;
+  padding:9px 1px;
+  transition:color .2s ease
+}
+.decrypt-nav-label {
+  display:inline-block;
+  min-width:5ch;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.035em;
+  text-align:center
+}
+.primary-nav>a:not(.nav-contact)::after {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:3px;
+  height:1px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet));
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .25s ease
+}
+.primary-nav>a:not(.nav-contact):hover { color:var(--text) }
+.primary-nav>a:not(.nav-contact):hover::after { transform:scaleX(1) }
+.primary-nav .nav-contact {
+  position:absolute;
+  right:max(40px,calc((100vw - var(--page))/2));
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 17px;
+  border:1px solid rgba(103,232,249,.32);
+  border-radius:999px;
+  color:var(--text);
+  background:linear-gradient(120deg,rgba(99,102,241,.14),rgba(103,232,249,.08));
+  box-shadow:inset 0 0 18px rgba(103,232,249,.035);
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease
+}
+.primary-nav .nav-contact:hover {
+  transform:translateY(-2px);
+  border-color:rgba(103,232,249,.72);
+  background:linear-gradient(120deg,rgba(99,102,241,.28),rgba(103,232,249,.15));
+  box-shadow:0 8px 24px rgba(99,102,241,.17),0 0 18px rgba(103,232,249,.1)
+}
+.nav-contact-arrow {
+  color:var(--cyan);
+  transition:transform .2s ease
+}
+.nav-contact:hover .nav-contact-arrow { transform:translate(2px,-2px) }
+.nav-contact-label { display:inline-block;min-width:6.5ch }
+.menu-toggle { display:none }
+
+.site-header.is-scrolled {
+  top:14px;
+  left:50%;
+  right:auto;
+  width:max-content;
+  height:58px;
+  display:flex;
+  justify-content:center;
+  padding:6px 10px;
+  border:1px solid rgba(103,232,249,.2);
+  border-radius:999px;
+  background:rgba(8,11,20,.84);
+  box-shadow:0 12px 40px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.04);
+  backdrop-filter:blur(22px);
+  transform:translateX(-50%);
+  animation:nav-pill-slide-in .82s cubic-bezier(.22,.78,.2,1) both
+}
+@keyframes nav-pill-slide-in {
+  from { opacity:0;transform:translate(-50%,-22px) scale(.94) }
+  to { opacity:1;transform:translate(-50%,0) scale(1) }
+}
+.site-header.is-scrolled .wordmark { display:none }
+.site-header.is-scrolled .primary-nav { gap:clamp(17px,2.4vw,30px) }
+.site-header.is-scrolled .primary-nav .nav-contact {
+  position:static;
+  padding:9px 16px;
+  margin-left:3px
+}
+
+@media(max-width:900px) {
+  .site-header { padding-inline:26px }
+  .primary-nav { gap:20px }
+  .primary-nav .nav-contact { right:26px }
+  .site-header.is-scrolled .primary-nav { gap:18px }
+}
+
+@media(max-width:680px) {
+  .site-header {
+    height:68px;
+    display:flex;
+    justify-content:space-between;
+    padding-inline:20px;
+    background:linear-gradient(180deg,rgba(8,11,20,.9),rgba(8,11,20,0))
+  }
+  .wordmark { gap:9px }
+  .wordmark-mark { width:33px;height:33px;flex-basis:33px;border-radius:10px }
+  .wordmark-name { width:125px;font-size:8px }
+  .menu-toggle {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    border:1px solid rgba(103,232,249,.2);
+    border-radius:50%;
+    background:rgba(17,24,39,.6);
+    padding:10px
+  }
+  .menu-toggle span {
+    width:17px;
+    height:1px;
+    background:var(--text);
+    transition:transform .2s
+  }
+  .menu-toggle[aria-expanded=true] span:first-child { transform:translateY(3px) rotate(45deg) }
+  .menu-toggle[aria-expanded=true] span:last-child { transform:translateY(-3px) rotate(-45deg) }
+  .primary-nav {
+    display:none;
+    position:absolute;
+    top:62px;
+    left:16px;
+    right:16px;
+    padding:14px;
+    border:1px solid rgba(103,232,249,.2);
+    border-radius:18px;
+    background:rgba(8,11,20,.96);
+    box-shadow:0 18px 40px rgba(0,0,0,.35);
+    flex-direction:column;
+    align-items:stretch;
+    gap:3px
+  }
+  .primary-nav.is-open { display:flex }
+  .primary-nav>a:not(.nav-contact) { padding:11px 10px;border-bottom:1px solid rgba(39,50,73,.55) }
+  .primary-nav>a:not(.nav-contact)::after { display:none }
+  .primary-nav .nav-contact {
+    position:static;
+    justify-content:center;
+    margin-top:9px
+  }
+  .site-header.is-scrolled {
+    top:10px;
+    width:calc(100% - 28px);
+    height:54px;
+    justify-content:flex-end;
+    padding:5px 9px
+  }
+  .site-header.is-scrolled .menu-toggle { margin-left:auto }
+  .site-header.is-scrolled .primary-nav {
+    top:62px;
+    left:0;
+    right:0
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .wordmark-caret { animation:none }
+  .site-header.is-scrolled { animation:none }
+  .site-header,.wordmark,.primary-nav a,.nav-contact { transition:none }
+}
