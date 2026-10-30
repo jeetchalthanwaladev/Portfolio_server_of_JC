@@ -1,5 +1,6 @@
 import { useState } from "react";
 import usePortfolioContent from "./usePortfolioContent.js";
+import { apiFetch } from "../lib/api.js";
 
 const initialForm = { name: "", email: "", message: "" };
 
@@ -19,7 +20,7 @@ function ContactForm({ labels, email }) {
     setStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await apiFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { apiFetch } from '../../lib/api.js';
 
 function formatBytes(value) {
   const bytes = Number(value);
@@ -78,8 +79,7 @@ export default function CloudinaryLibrary({ onLogout }) {
     try {
       const query = new URLSearchParams({ limit: '36' });
       if (cursor) query.set('cursor', cursor);
-      const response = await fetch(`/api/admin/cloudinary/assets?${query}`, {
-        credentials: 'same-origin',
+      const response = await apiFetch(`/api/admin/cloudinary/assets?${query}`, {
         cache: 'no-store',
       });
       const result = await response.json();
@@ -110,9 +110,8 @@ export default function CloudinaryLibrary({ onLogout }) {
     setError('');
     setMessage('');
     try {
-      const response = await fetch('/api/admin/cloudinary/assets', {
+      const response = await apiFetch('/api/admin/cloudinary/assets', {
         method: 'DELETE',
-        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ publicId: asset.publicId, deliveryType: asset.deliveryType || 'upload' }),
       });

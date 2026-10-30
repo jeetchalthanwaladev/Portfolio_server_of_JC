@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import defaultPortfolioContent from '../../data/defaultPortfolioContent.js';
 import CloudinaryLibrary from './CloudinaryLibrary.jsx';
+import { apiFetch } from '../../lib/api.js';
 import '../../styles/admin.css';
 
 const SECTION_LABELS = {
@@ -177,7 +178,7 @@ function AdminLogin({ onLogin }) {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/session').then((response) => response.json()).then((result) => {
+    apiFetch('/api/admin/session').then((response) => response.json()).then((result) => {
       setConfigured(result.configured);
       setDatabaseReady(result.databaseReady);
       setMongoUriHasPlaceholders(Boolean(result.mongoUriHasPlaceholders));
@@ -197,9 +198,8 @@ function AdminLogin({ onLogin }) {
     setSubmitting(true);
     setError('');
     try {
-      const response = await fetch('/api/admin/login', {
+      const response = await apiFetch('/api/admin/login', {
         method: 'POST',
-        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
@@ -252,7 +252,7 @@ function AdminDashboard({ onLogout }) {
   const loadContent = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/admin/content', { credentials: 'same-origin', cache: 'no-store' });
+      const response = await apiFetch('/api/admin/content', { cache: 'no-store' });
       if (response.status === 401) return onLogout();
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not load portfolio content.');
@@ -272,9 +272,8 @@ function AdminDashboard({ onLogout }) {
     setMessage('');
     setError('');
     try {
-      const response = await fetch('/api/admin/content', {
+      const response = await apiFetch('/api/admin/content', {
         method: 'PUT',
-        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content }),
       });
@@ -303,7 +302,7 @@ function AdminDashboard({ onLogout }) {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const response = await fetch('/api/admin/upload', { method: 'POST', credentials: 'same-origin', body: formData });
+      const response = await apiFetch('/api/admin/upload', { method: 'POST', body: formData });
       const result = await response.json();
       if (response.status === 401) return onLogout();
       if (!response.ok) throw new Error(result.error || 'Image upload failed.');
@@ -370,7 +369,7 @@ export default function AdminApp() {
   const checkSession = useCallback(async () => {
     setChecking(true);
     try {
-      const response = await fetch('/api/admin/session', { credentials: 'same-origin', cache: 'no-store' });
+      const response = await apiFetch('/api/admin/session', { cache: 'no-store' });
       const result = await response.json();
       setAuthenticated(Boolean(result.authenticated));
     } catch {
@@ -383,7 +382,7 @@ export default function AdminApp() {
   useEffect(() => { checkSession(); }, [checkSession]);
 
   async function logout() {
-    try { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin' }); } catch { /* The cookie expires on its own. */ }
+    try { await apiFetch('/api/admin/logout', { method: 'POST' }); } catch { /* The cookie expires on its own. */ }
     setAuthenticated(false);
   }
 

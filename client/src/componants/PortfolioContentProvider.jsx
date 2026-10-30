@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import defaultPortfolioContent from '../data/defaultPortfolioContent.js';
 import PortfolioContentContext from './PortfolioContentContext.js';
+import { apiFetch } from '../lib/api.js';
 
 export function PortfolioContentProvider({ children }) {
   const [content, setContent] = useState(defaultPortfolioContent);
@@ -8,7 +9,7 @@ export function PortfolioContentProvider({ children }) {
 
   const refresh = useCallback(async () => {
     try {
-      const response = await fetch('/api/portfolio', { cache: 'no-store' });
+      const response = await apiFetch('/api/portfolio', { cache: 'no-store' });
       if (!response.ok) return;
       const latestContent = await response.json();
       if (latestContent && typeof latestContent === 'object') setContent(latestContent);

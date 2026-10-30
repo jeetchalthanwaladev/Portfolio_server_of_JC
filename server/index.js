@@ -19,6 +19,9 @@ import PortfolioContent from "./models/PortfolioContent.js";
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
+const requestedSameSite = process.env.SESSION_COOKIE_SAME_SITE?.trim().toLowerCase();
+const sessionCookieSameSite = ["strict", "lax", "none"].includes(requestedSameSite) ? requestedSameSite : "strict";
+const sessionCookieSecure = process.env.NODE_ENV === "production" || sessionCookieSameSite === "none";
 const currentFile = fileURLToPath(import.meta.url);
 const currentDir = path.dirname(currentFile);
 const projectRoot = path.resolve(currentDir, "..");
@@ -89,6 +92,38 @@ if (mongoUri && !mongoUriHasPlaceholders) {
 
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
+
+function parseAllowedOrigin(value) {
+  try {
+    return new URL(value.trim()).origin;
+  } catch {
+    return "";
+  }
+}
+
+const allowedClientOrigins = new Set(
+  [process.env.SITE_URL, ...(process.env.CORS_ORIGINS || "").split(",")]
+    .filter(Boolean)
+    .map(parseAllowedOrigin)
+    .filter(Boolean)
+);
+
+app.use((request, response, next) => {
+  const origin = request.get("origin");
+  if (!origin) return next();
+  if (!allowedClientOrigins.has(origin)) {
+    return response.status(403).json({ error: "This website is not allowed to access the portfolio API." });
+  }
+
+  response.setHeader("Access-Control-Allow-Origin", origin);
+  response.setHeader("Access-Control-Allow-Credentials", "true");
+  response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  response.setHeader("Vary", "Origin");
+  if (request.method === "OPTIONS") return response.status(204).end();
+  return next();
+});
+
 app.use(express.json({ limit: "256kb" }));
 app.use(session({
   name: "jc-admin-session",
@@ -102,8 +137,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: sessionCookieSecure,
+    sameSite: sessionCookieSameSite,
     maxAge: 8 * 60 * 60 * 1000,
   },
 }));
@@ -307,8 +342,8 @@ app.post("/api/admin/logout", requireAdmin, (request, response, next) => {
     if (error) return next(error);
     response.clearCookie("jc-admin-session", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: sessionCookieSecure,
+      sameSite: sessionCookieSameSite,
     });
     return response.status(204).end();
   });
