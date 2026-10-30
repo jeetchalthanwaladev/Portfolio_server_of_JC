@@ -27,3 +27,5 @@ services:
           type: web
           name: jeet-chalthanwala-portfolio
           envVarKey: RENDER_EXTERNAL_URL
+      - key: VITE_API_URL
+        value: https://portfolio-backend-jahq.onrender.com
