@@ -263,13 +263,7 @@ h1 {
 .hero-chips {
   position:absolute;
   z-index:4;
-  inset:10% 0 13%;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  grid-template-rows:repeat(var(--chip-rows,1),minmax(38px,1fr));
-  column-gap:clamp(52px,8vw,112px);
-  row-gap:18px;
-  align-content:space-between;
+  inset:5% 0;
   pointer-events:none
 }
 .float-chip {
@@ -315,19 +309,15 @@ h1 {
   overflow:hidden
 }
 .hero-chips > .float-chip {
-  position:relative;
+  position:absolute;
+  left:calc(50% + var(--chip-x,0%));
+  top:calc(50% + var(--chip-y,0%));
   z-index:1;
-  grid-column:var(--chip-column);
-  grid-row:var(--chip-row);
-  align-self:center;
-  justify-self:start;
+  translate:-50% -50%;
   width:max-content;
   max-width:min(180px,100%);
   pointer-events:auto;
   animation-delay:var(--chip-delay,0s)
-}
-.hero-chips > .float-chip:nth-child(even) {
-  justify-self:end
 }
 .art-caption {
   position:absolute;

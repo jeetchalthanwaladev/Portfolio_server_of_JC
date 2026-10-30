@@ -101,8 +101,7 @@
     transform-origin:center center
   }
 .hero-chips {
-    inset:5% 0 12%;
-    column-gap:clamp(24px,6vw,52px)
+    inset:5% 0
   }
 .hero-chips > .float-chip {
     max-width:min(160px,100%);
