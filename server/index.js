@@ -179,6 +179,20 @@ async function getPortfolioDocument() {
 
 function normalizePortfolioContent(storedContent) {
   const content = { ...defaultPortfolioContent, ...storedContent };
+  const profileSection = { ...defaultPortfolioContent.profile, ...(storedContent?.profile ?? {}) };
+  const navigationSection = { ...defaultPortfolioContent.navigation, ...(storedContent?.navigation ?? {}) };
+  const navigationItems = Array.isArray(navigationSection.items)
+    ? [...navigationSection.items]
+    : [...defaultPortfolioContent.navigation.items];
+  const profileNavigationItem = defaultPortfolioContent.navigation.items.find((item) => item.href === "#profile");
+
+  if (!storedContent?.profile && !navigationItems.some((item) => item?.href === "#profile")) {
+    navigationItems.push(profileNavigationItem);
+  }
+
+  content.profile = profileSection;
+  content.navigation = { ...navigationSection, items: navigationItems };
+
   const projectSection = { ...defaultPortfolioContent.projects, ...(storedContent?.projects ?? {}) };
   projectSection.items = (Array.isArray(projectSection.items) ? projectSection.items : defaultPortfolioContent.projects.items)
     .map((project) => {

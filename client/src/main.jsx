@@ -5,6 +5,7 @@ import "./styles/base.css";
 import "./styles/header.css";
 import "./styles/hero.css";
 import "./styles/sections.css";
+import "./styles/profile.css";
 import "./styles/responsive.css";
 import "./styles/ambient-code-background.css";
 

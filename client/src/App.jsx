@@ -6,6 +6,7 @@ import AboutSection from "./componants/AboutSection.jsx";
 import ProjectsSection from "./componants/ProjectsSection.jsx";
 import SkillsSection from "./componants/SkillsSection.jsx";
 import ProcessSection from "./componants/ProcessSection.jsx";
+import ProfileSection from "./componants/ProfileSection.jsx";
 import ContactSection from "./componants/ContactSection.jsx";
 import SiteFooter from "./componants/SiteFooter.jsx";
 import CustomCursor from "./componants/CustomCursor.jsx";
@@ -37,6 +38,7 @@ function PublicPortfolio() {
         <ProjectsSection />
         <SkillsSection />
         <ProcessSection />
+        <ProfileSection />
         <ContactSection />
       </main>
 

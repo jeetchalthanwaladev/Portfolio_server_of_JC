@@ -1,0 +1,164 @@
+.profile-section {
+  content-visibility:auto;
+  contain-intrinsic-size:1px 650px;
+  padding:105px 0 120px;
+  border-top:1px solid rgba(39,50,73,.6)
+}
+.profile-panel {
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:minmax(220px,.78fr) minmax(0,1.22fr);
+  align-items:center;
+  gap:clamp(24px,5vw,64px);
+  overflow:hidden;
+  padding:clamp(24px,5vw,54px);
+  border:1px solid rgba(70,84,116,.62);
+  border-radius:18px;
+  background:linear-gradient(118deg,rgba(17,24,39,.92),rgba(9,14,25,.94));
+  box-shadow:0 22px 65px rgba(0,0,0,.17)
+}
+.profile-panel::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:340px;
+  height:280px;
+  right:-100px;
+  top:-155px;
+  border-radius:50%;
+  background:rgba(99,102,241,.14);
+  filter:blur(65px);
+  pointer-events:none
+}
+.profile-introduction { min-width:0 }
+.profile-monogram {
+  display:grid;
+  place-items:center;
+  width:58px;
+  height:58px;
+  margin-bottom:25px;
+  border:1px solid rgba(103,232,249,.38);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(99,102,241,.3),rgba(103,232,249,.1));
+  color:var(--cyan);
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:-.06em;
+  box-shadow:inset 0 0 18px rgba(103,232,249,.08),0 0 25px rgba(99,102,241,.1)
+}
+.profile-overline,.profile-link-label {
+  color:#77849c;
+  font:8px var(--mono);
+  letter-spacing:.14em;
+  text-transform:uppercase
+}
+.profile-overline { margin:0 0 10px }
+.profile-introduction h3 {
+  margin:0;
+  color:var(--text);
+  font-size:clamp(30px,4vw,47px);
+  line-height:1.08;
+  letter-spacing:-.065em;
+  overflow-wrap:anywhere
+}
+.profile-role {
+  margin:11px 0 22px;
+  color:var(--cyan);
+  font-size:13px;
+  font-weight:600
+}
+.profile-status {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#a7b0c3;
+  font:8px var(--mono);
+  letter-spacing:.045em
+}
+.profile-status i {
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#76f7bf;
+  box-shadow:0 0 10px rgba(118,247,191,.65)
+}
+.profile-link-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+  margin:0;
+  padding:0;
+  list-style:none
+}
+.profile-link-grid > li { min-width:0 }
+.profile-link-card {
+  position:relative;
+  display:flex;
+  min-width:0;
+  min-height:104px;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:8px;
+  padding:17px 44px 16px 17px;
+  overflow:hidden;
+  border:1px solid rgba(70,84,116,.55);
+  border-radius:12px;
+  background:rgba(8,12,22,.52);
+  transition:transform .24s ease,border-color .24s ease,background .24s ease,box-shadow .24s ease
+}
+.profile-link-card:hover {
+  transform:translateY(-3px);
+  border-color:rgba(103,232,249,.5);
+  background:rgba(17,24,39,.82);
+  box-shadow:0 12px 28px rgba(0,0,0,.2),0 0 19px rgba(103,232,249,.06)
+}
+.profile-link-mark {
+  position:absolute;
+  top:15px;
+  right:16px;
+  display:grid;
+  place-items:center;
+  min-width:29px;
+  height:29px;
+  padding:0 5px;
+  border:1px solid rgba(103,232,249,.2);
+  border-radius:9px;
+  background:rgba(103,232,249,.06);
+  color:var(--cyan);
+  font:9px var(--mono)
+}
+.profile-link-label { color:#8490a6 }
+.profile-link-card strong {
+  display:block;
+  overflow:hidden;
+  color:#e5ebf6;
+  font-size:10px;
+  font-weight:600;
+  line-height:1.5;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.profile-link-arrow {
+  position:absolute;
+  right:17px;
+  bottom:15px;
+  color:var(--cyan);
+  font-size:14px;
+  transition:transform .2s ease
+}
+.profile-link-card:hover .profile-link-arrow { transform:translate(2px,-2px) }
+.profile-link-grid > li:last-child:nth-child(odd) { grid-column:1/-1 }
+
+@media(max-width:900px) {
+  .profile-panel { grid-template-columns:minmax(190px,.75fr) minmax(0,1.25fr);gap:28px;padding:30px }
+}
+@media(max-width:680px) {
+  .profile-section { padding:83px 0 }
+  .profile-panel { grid-template-columns:1fr;gap:27px;padding:22px }
+  .profile-monogram { width:50px;height:50px;margin-bottom:19px;border-radius:15px }
+  .profile-link-grid { gap:9px }
+  .profile-link-card { min-height:96px;padding:14px 37px 13px 13px }
+  .profile-link-mark { top:12px;right:12px;min-width:26px;height:26px }
+  .profile-link-arrow { right:13px;bottom:13px }
+}

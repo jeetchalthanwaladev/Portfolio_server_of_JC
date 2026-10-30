@@ -6,7 +6,7 @@ import '../../styles/admin.css';
 
 const SECTION_LABELS = {
   navigation: 'Navigation', hero: 'Hero', about: 'About', projects: 'Projects',
-  skills: 'Tech stack', process: 'Process', contact: 'Contact', footer: 'Footer', seo: 'SEO',
+  skills: 'Tech stack', process: 'Process', profile: 'Profile', contact: 'Contact', footer: 'Footer', seo: 'SEO',
 };
 
 function clone(value) {
