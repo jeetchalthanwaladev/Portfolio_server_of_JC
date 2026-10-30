@@ -22,6 +22,8 @@ const port = Number(process.env.PORT || 3001);
 const requestedSameSite = process.env.SESSION_COOKIE_SAME_SITE?.trim().toLowerCase();
 const sessionCookieSameSite = ["strict", "lax", "none"].includes(requestedSameSite) ? requestedSameSite : "strict";
 const sessionCookieSecure = process.env.NODE_ENV === "production" || sessionCookieSameSite === "none";
+const sessionLifetimeSeconds = 60 * 60 * 24;
+const sessionLifetimeMilliseconds = sessionLifetimeSeconds * 1000;
 const currentFile = fileURLToPath(import.meta.url);
 const currentDir = path.dirname(currentFile);
 const projectRoot = path.resolve(currentDir, "..");
@@ -126,12 +128,12 @@ app.use((request, response, next) => {
 
 app.use(express.json({ limit: "256kb" }));
 app.use(session({
-  name: "jc-admin-session",
+  name: "portfolio.sid",
   secret: process.env.ADMIN_SESSION_SECRET || randomBytes(32).toString("hex"),
   store: databaseReady ? MongoStore.create({
     client: mongoose.connection.getClient(),
     collectionName: "admin_sessions",
-    ttl: 8 * 60 * 60,
+    ttl: sessionLifetimeSeconds,
   }) : undefined,
   resave: false,
   saveUninitialized: false,
@@ -139,7 +141,7 @@ app.use(session({
     httpOnly: true,
     secure: sessionCookieSecure,
     sameSite: sessionCookieSameSite,
-    maxAge: 8 * 60 * 60 * 1000,
+    maxAge: sessionLifetimeMilliseconds,
   },
 }));
 
@@ -340,7 +342,7 @@ app.post("/api/admin/login", loginLimiter, async (request, response, next) => {
 app.post("/api/admin/logout", requireAdmin, (request, response, next) => {
   request.session.destroy((error) => {
     if (error) return next(error);
-    response.clearCookie("jc-admin-session", {
+    response.clearCookie("portfolio.sid", {
       httpOnly: true,
       secure: sessionCookieSecure,
       sameSite: sessionCookieSameSite,
