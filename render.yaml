@@ -23,9 +23,10 @@ services:
       - key: CLOUDINARY_API_SECRET
         sync: false
       - key: SITE_URL
-        fromService:
-          type: web
-          name: jeet-chalthanwala-portfolio
-          envVarKey: RENDER_EXTERNAL_URL
+        value: https://chalthanwala.freedev.app
       - key: VITE_API_URL
         value: https://portfolio-backend-jahq.onrender.com
+      - key: CORS_ORIGINS
+        value: https://chalthanwala.freedev.app
+      - key: SESSION_COOKIE_SAME_SITE
+        value: none
