@@ -10,7 +10,7 @@ export function apiUrl(path) {
 
 export function apiFetch(path, options = {}) {
   return fetch(apiUrl(path), {
-    credentials: API_BASE_URL ? "include" : "same-origin",
     ...options,
+    credentials: "include",
   });
 }

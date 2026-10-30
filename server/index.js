@@ -19,9 +19,7 @@ import PortfolioContent from "./models/PortfolioContent.js";
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
-const requestedSameSite = process.env.SESSION_COOKIE_SAME_SITE?.trim().toLowerCase();
-const sessionCookieSameSite = ["strict", "lax", "none"].includes(requestedSameSite) ? requestedSameSite : "strict";
-const sessionCookieSecure = process.env.NODE_ENV === "production" || sessionCookieSameSite === "none";
+const isProduction = process.env.NODE_ENV === "production";
 const sessionLifetimeSeconds = 60 * 60 * 24;
 const sessionLifetimeMilliseconds = sessionLifetimeSeconds * 1000;
 const currentFile = fileURLToPath(import.meta.url);
@@ -139,8 +137,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: sessionCookieSecure,
-    sameSite: sessionCookieSameSite,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: sessionLifetimeMilliseconds,
   },
 }));
@@ -344,8 +342,8 @@ app.post("/api/admin/logout", requireAdmin, (request, response, next) => {
     if (error) return next(error);
     response.clearCookie("portfolio.sid", {
       httpOnly: true,
-      secure: sessionCookieSecure,
-      sameSite: sessionCookieSameSite,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
     });
     return response.status(204).end();
   });

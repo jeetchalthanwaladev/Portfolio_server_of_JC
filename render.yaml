@@ -28,5 +28,3 @@ services:
         value: https://portfolio-backend-jahq.onrender.com
       - key: CORS_ORIGINS
         value: https://chalthanwala.freedev.app
-      - key: SESSION_COOKIE_SAME_SITE
-        value: none
